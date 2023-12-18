@@ -1,13 +1,20 @@
-import {Task} from '../types';
+import {Task} from '../../types';
 import React from 'react';
+import ButtonSpinner from '../../components/Spinner/ButtonSpinner';
 
-interface TaskItemProps {
+interface Props {
   task: Task;
   onToggle: React.ChangeEventHandler<HTMLInputElement>;
   onDelete: React.MouseEventHandler;
+  deleteLoading: boolean | string;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({task, onToggle, onDelete}) => {
+const TaskItem: React.FC<Props> = ({
+  task,
+  onToggle,
+  onDelete,
+  deleteLoading
+}) => {
 
   return (
     <div className="card m-2" style={{maxWidth: '500px'}}>
@@ -24,7 +31,14 @@ const TaskItem: React.FC<TaskItemProps> = ({task, onToggle, onDelete}) => {
           />
         </div>
         <div className="col">
-          <button className="btn btn-danger" onClick={onDelete}>Delete</button>
+          <button
+            className="btn btn-danger"
+            onClick={onDelete}
+            disabled={deleteLoading ? deleteLoading === task.id : false}
+          >
+            {deleteLoading && deleteLoading === task.id && (<ButtonSpinner/>)}
+            Delete
+          </button>
         </div>
       </div>
     </div>
